@@ -339,6 +339,10 @@ player.set_position(Vector3.new(0, 1000, 0))
 player.set_position(tags.get_tagged("spawn_point")[0].position)
 print(player.get_position())
 
+sharedvars.plr_weapon_clamp_stats_values = false
+player.set_animation_speed(2) -- make player guns have 2x more ergo
+print(player.get_animation_speed())
+
 player.set_speed(5)
 player.set_jump_multiplier(1)
 player.set_health(200)
