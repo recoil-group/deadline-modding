@@ -69,6 +69,8 @@ time.wait(5)
 ```lua
 
 -- you can access the position and size data of CollectionService tagged instances in your maps with the tags namespace.
+-- get_tagged gets tagged instances in workspace (current map)
+-- get_all_tagged gets all instances (lets you load maps as models and then spawn them in)
 
 print(tags.get_tags()) --> returns a list of every tag used by the game
 print(tags.get_tagged("_killbox")) --> returns a list of every part tagged with _killbox.
@@ -86,6 +88,11 @@ print(tags.get_tagged("_killbox")) --> returns a list of every part tagged with 
 
 local sound = tags.get_tagged("sound_alarm")[1]
 sound.play() -- for playing sound
+
+-- you can also create any instance
+local highlight = create_instance("Highlight")
+highlight.Parent = character
+highlight.Name = "highlight"
 
 -- you can also create sounds specifically directly
 local sound = sound.create()
@@ -108,6 +115,26 @@ sound.remove_tag("tag")
 
 sound.set_attribute("attribute", true)
 sound.get_attribute("attribute")
+
+-- models. You can move entire models with pivot_to
+model.pivot_to(model.get_pivot() * CFrame.Angles(0.1, 0, 0))
+
+-- physics
+instance.apply_impulse_at_position(Vector3.new(0, 0, 0), Vector3.new(0, 0, 0))
+instance.apply_angular_impulse_at_position(Vector3.new(0, 0, 0), Vector3.new(0, 0, 0))
+instance.apply_impulse(Vector3.new(0, 0, 0))
+instance.set_network_owner(nil)
+instance.set_network_owner("MyName")
+
+-- some util functions
+-- you can parent things to the map directly with get_map_root()
+instance.Parent = get_map_root()
+
+-- you can also get the character folder
+instance.Parent = get_chars_root()
+
+-- this helps with cloned instances that should disappear when the map is unloaded
+
 ```
 
 ### sharedvars
@@ -118,6 +145,8 @@ sound.get_attribute("attribute")
 -- sharedvars and sharedvars_descriptions exposes this in a simple API
 -- the game has over 100 changeable settings. Check them to make sure
 -- what you might want to do isn't already configurable.
+
+-- there is another page about this on the wiki
 
 for name, description in pairs(sharedvars_descriptions) do
     print(name, description) --> prints every sharedvars value
@@ -151,6 +180,19 @@ print(shared.value) --> 5
 ```lua
 print("hello world") -- self explanatory
 clear_console() -- clears the console output
+```
+
+### query
+
+```lua
+-- API for spacial queries, etc
+local raycast_params = query.create_raycast_params()
+raycast_params.filter_descendants_instances({ car })
+raycast_params.filter_type(Enum.RaycastFilterType.Exclude)
+
+-- same returns as workspace.Raycast, just lowercase
+local hit = query.raycast(position, direction * suspension_length, raycast_params)
+print(result.instance.Name)
 ```
 
 ## Server globals
@@ -288,11 +330,21 @@ print(player.get_team()) --> attacker
 player.spawn() -- spawns the player if they are not already spawned
 player.respawn() -- force respawns the player, even if they are already spawned
 
+-- player id is unique, userid is userid
+print(player.id)
+print(player.player_id)
+
 -- overrides
 player.set_position(Vector3.new(0, 1000, 0))
 player.set_position(tags.get_tagged("spawn_point")[0].position)
+print(player.get_position())
+
+sharedvars.plr_weapon_clamp_stats_values = false
+player.set_animation_speed(2) -- make player guns have 2x more ergo
+print(player.get_animation_speed())
 
 player.set_speed(5)
+player.set_jump_multiplier(1)
 player.set_health(200)
 player.set_initial_health(200) -- doesn't work immediately
 player.set_camera_mode("Freecam")
@@ -325,14 +377,18 @@ on_player_died:Connect(function(name, position, killer_data, stats_counted)
 end)
 
 -- import weapon from a code
-local setup = weapons.get_setup_from_code("4f42-02212-zh1g-3oaa-ozhz-z3nb-caa9-61wo") -- setup only works in dev branch
+local setup = weapons.get_setup_from_code("4f42-02212-zh1g-3oaa-ozhz-z3nb-caa9-61wo") -- this specific setup only works in dev branch
 
 if setup.status ~= "_" then
     warn("setup is not valid")
 else
-	-- 1st argument is primary, secondary, throwable1, throwable2
+	-- 1st argument is primary, secondary
     player.set_weapon("primary", "M4A1", setup.data.data)
 end
+
+-- refilling grenades
+player.set_utility("throwable1", "F1")
+players.get("BIackShibe").set_utility("primary", "F1")
 
 -- you can check if it's broken with get_setup_status
 local setup = weapons.get_setup_from_code("cn8q-0231-31bq-zg6d-8m54-g906-o50c-m1f7")
@@ -445,9 +501,12 @@ end
 
 -- game data includes current game state (map, gamemode, so on)
 print(game_data.lighting.value) -- print current lighting
-print(game_data.map_properties.lighting_preset) -- or this way
+print(game_data.map_properties.value.lighting_preset) -- or this way
 
-print(game_data.map_properties.map_config) -- print map config
+-- print map config data
+for name, data in pairs(game_data.map_config.value) do
+	print(name, data)
+end
 
 -- to show all values
 for name, data in pairs(game_data) do
@@ -459,6 +518,11 @@ end
 
 ```lua
 load_modfile("DATA") --> loads a modfile to the game
+
+-- cleanup
+on_modfile_loaded:Connect(function()
+	print("another modfile was loaded")
+end)
 ```
 
 ### networking
@@ -572,6 +636,21 @@ table.insert(config.settings_layout.controls, { setting = "toggle_godmode", type
 framework.character.is_alive() -- gets whether you're alive
 framework.character.get_position() -- returns character position
 framework.character.get_camera_cframe() -- gets the camera cframe
+
+-- force nvg
+framework.character.set_nv_enabled(true)
+
+framework.character.is_nv_enabled() -- also includes whether an nv scope is enabled
+framework.character.is_nv_head_gear_enabled() -- only applies to night vision
+
+-- spawn & death event
+framework.on_spawned:Connect(function()
+	print("spawned")
+end)
+
+framework.on_died:Connect(function()
+	print("spawned")
+end)
 ```
 
 ### interactables
@@ -740,7 +819,7 @@ ui.render({
 })
 
 -- iris is also included
--- https://michael-48.github.io/Iris/
+-- https://sirmallard.github.io/Iris/
 iris:Connect(function()
 	iris.Window({"My Second Window"})
 		iris.Text({"The current time is: " .. tick()})
