@@ -552,6 +552,10 @@ input_group:bind_key(function()
 client_input_group:disconnect_all_binds()
 input_group:disconnect_all_binds()
 
+-- you can unbind keys like this
+input.disable_default_action("crouch")
+input.enable_default_action("crouch")
+
 -- every keybind is available here. you may or may not be able to add custom ones
 for i, v in pairs(config.keybinds) do
 	print(i, v)

@@ -6,13 +6,14 @@ Mods and their source available on this website.
 
 ## Mods
 
-| Description      | Info                                  | Link                                                   | Source code                                                             |
-| ---------------- | ------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------- |
-| Eotech 552 model | Has an example attachment             | [eotech_552.luau](example/modfile/eotech_552.luau)     | [attachment_eotech_552.rbxm](example/source/attachment_eotech_552.rbxl) |
-| Template map     | Has an example custom lighting preset | [template_map.luau](example/modfile/template_map.luau) | [map_template_map.rbxl](example/source/map_template_map.rbxl)           |
-| Test map         | Old copy of a Deadline map layout     | [mod_testmap.luau](example/modfile/mod_testmap.luau)   | [map_mod_testmap.rbxl](example/source/map_mod_testmap.rbxl)             |
-| Pool day         | First proper custom map               | [pool_day.luau](example/modfile/pool_day.luau)         | [map_pool_day.rbxl](example/source/map_pool_day.rbxl)                   |
-| Autorun test     |                                       | [mod_autorun.luau](example/modfile/mod_autorun.luau)   | [map_autorun_test.rbxl](example/source/map_autorun_test.rbxl)           |
+| Description        | Info                                              | Link                                                                           | Source code                                                                   |
+| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| Eotech 552 model   | Has an example attachment                         | [eotech_552.luau](example/modfile/eotech_552.luau)                             | [attachment_eotech_552.rbxm](example/source/attachment_eotech_552.rbxl)       |
+| Template map       | Has an example custom lighting preset             | [template_map.luau](example/modfile/template_map.luau)                         | [map_template_map.rbxl](example/source/map_template_map.rbxl)                 |
+| Test map           | Old copy of a Deadline map layout                 | [mod_testmap.luau](example/modfile/mod_testmap.luau)                           | [map_mod_testmap.rbxl](example/source/map_mod_testmap.rbxl)                   |
+| Pool day           | First proper custom map                           | [pool_day.luau](example/modfile/pool_day.luau)                                 | [map_pool_day.rbxl](example/source/map_pool_day.rbxl)                         |
+| Autorun test       |                                                   | [mod_autorun.luau](example/modfile/mod_autorun.luau)                           | [map_autorun_test.rbxl](example/source/map_autorun_test.rbxl)                 |
+| Moving car traffic | Map with a car that spawns randomly and kills you | [map_template_moving_cars.luau](example/modfile/map_template_moving_cars.luau) | [map_template_moving_cars.rbxl](example/source/map_template_moving_cars.rbxl) |
 
 ## Scripts
 
