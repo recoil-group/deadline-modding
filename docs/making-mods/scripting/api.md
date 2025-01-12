@@ -352,6 +352,7 @@ player.set_model("orchids_pbr_set")
 player.ban_from_server() -- works same as votekicking someone
 player.refill_ammo()
 
+print(player.get_active_slot())
 player.equip_weapon("secondary", true) -- immediately forces the player to equip their secondary
 player.equip_weapon("throwable1") -- forces the player to switch to their 1st grenade
 
