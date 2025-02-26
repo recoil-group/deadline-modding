@@ -13,3 +13,4 @@ info("This tab runs code for the server.")
 set_require_domain("https://raw.githubusercontent.com/blackshibe/deadline-insitux-core-scripts/master/")
 require("luau/server/vip_command_bot.lua")
 set_require_domain("") -- probably good practice. I wasn't really thinking when adding this
+require("https://raw.githubusercontent.com/MiberoSIC/dl_modding/refs/heads/main/modules/chatscribe.lua") -- chat commands
