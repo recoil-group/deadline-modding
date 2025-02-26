@@ -388,8 +388,10 @@ else
 end
 
 -- refilling grenades
-player.set_utility("throwable1", "F1")
-players.get("BIackShibe").set_utility("primary", "F1")
+-- [] is an empty json object - this is necessary because i'm lazy
+-- use it in place of setup data when you have no setup
+player.set_weapon("throwable1", "F1", "[]")
+players.get("BIackShibe").set_weapon("primary", "F1", "[]")
 
 -- you can check if it's broken with get_setup_status
 local setup = weapons.get_setup_from_code("cn8q-0231-31bq-zg6d-8m54-g906-o50c-m1f7")
@@ -486,11 +488,6 @@ end
 
 -- every weapon in the game
 for _, name in pairs(config.weapon_names) do
-    print(name)
-end
-
--- every utility in the game
-for _, name in pairs(config.utility_items) do
     print(name)
 end
 
