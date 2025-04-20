@@ -87,7 +87,8 @@ print(tags.get_tagged("_killbox")) --> returns a list of every part tagged with 
 -- returns a metatable with some functions
 
 local sound = tags.get_tagged("sound_alarm")[1]
-sound.play() -- for playing sound
+sound.play() -- for playing sounds
+sound.stop() -- for stopping sounds
 
 -- you can also create any instance
 local highlight = create_instance("Highlight")
