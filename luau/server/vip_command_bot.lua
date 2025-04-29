@@ -185,5 +185,5 @@ on_player_spawned:Connect(function(name)
 	player.set_weapon("primary", override_setup.weapon, override_setup.data)
 end)
 
-chat.send_announcement('type "-help" to view VIP server commands')
+chat.send_announcement('type "/help" to view VIP server commands')
 print("the default vip server script is running. type -help in the chat to view VIP server commands.")
