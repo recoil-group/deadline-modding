@@ -4,7 +4,7 @@ Scripts are written in barebones Luau with Deadline-only globals (game is replac
 
 ## How-to
 
-To make mods in Deadline you need the deadline plugin([download here](https://github.com/recoil-group/deadline-modfile-plugin/releases/download/0.23.0-dev-3-5/Plugin.rbxmx)) and an example map([download here](https://recoil-group.github.io/deadline-modding/example/source/map_template_map.rbxl)).
+To make mods in Deadline you need the deadline plugin([download here](https://github.com/recoil-group/deadline-modfile-plugin/releases/)) and an example map([download here (download the source code)](https://recoil-group.github.io/deadline-modding/mod-list/)).
 
 ## Setup
 
