@@ -3,5 +3,6 @@
 Interactions with objects when shot:
 
 -   Unanchored objects will be pushed by physics
--   Transparent glass objects will be destroyed unless they have a glass_invincible attribute set
+-   Transparent glass objects will be destroyed unless they have a glass_invincible tag set
+-   Anything can be destroyed when shot/stabbed/blown up with the glass_destructible tag set
 -   Neon turns into glass when shot
