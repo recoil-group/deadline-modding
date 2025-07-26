@@ -196,6 +196,12 @@ local hit = query.raycast(position, direction * suspension_length, raycast_param
 print(result.instance.Name)
 ```
 
+### other
+
+```lua
+print(_G.query) -- global environment table
+```
+
 ## Server globals
 
 ### require
