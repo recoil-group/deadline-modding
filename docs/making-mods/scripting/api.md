@@ -29,7 +29,17 @@ local spring = Spring.new(0.8, 40, 6, 1.9)
 spring:shove(Vector3.new(10, 0, 0))
 spring:update(delta_time)
 
+-- signal class
+local signal = Signal.new()
+
+signal:Connect(function(...)
+    print("Signal fired with args", ...)
+end)
+
+signal:Fire(1) -- outputs "Signal fired with args 1"
 ```
+
+````
 
 ### time
 
@@ -62,7 +72,7 @@ end)
 
 -- replacement for task.wait() affected by game speed
 time.wait(5)
-```
+````
 
 ### tags
 
