@@ -37,8 +37,6 @@ signal:Connect(function(...)
 end)
 
 signal:Fire(1) -- outputs "Signal fired with args 1"
-```
-
 ````
 
 ### time
