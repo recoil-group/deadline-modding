@@ -347,7 +347,7 @@ print(player.get_team()) --> attacker
 player.spawn() -- spawns the player if they are not already spawned
 player.respawn() -- force respawns the player, even if they are already spawned
 
--- player id is unique, userid is userid
+-- player_id is unique, id is roblox userid
 print(player.id)
 print(player.player_id)
 
