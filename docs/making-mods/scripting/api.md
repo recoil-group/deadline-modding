@@ -37,7 +37,7 @@ signal:Connect(function(...)
 end)
 
 signal:Fire(1) -- outputs "Signal fired with args 1"
-````
+```
 
 ### time
 
@@ -70,7 +70,7 @@ end)
 
 -- replacement for task.wait() affected by game speed
 time.wait(5)
-````
+```
 
 ### tags
 
@@ -361,6 +361,7 @@ print(player.get_animation_speed())
 player.set_speed(5)
 player.set_jump_multiplier(1)
 player.set_health(200)
+player.deal_damage(10)
 player.set_initial_health(200) -- doesn't work immediately
 player.set_camera_mode("Freecam")
 player.set_model("orchids_pbr_set")
