@@ -361,6 +361,7 @@ print(player.get_animation_speed())
 player.set_speed(5)
 player.set_jump_multiplier(1)
 player.set_health(200)
+print(player.get_health())
 player.deal_damage(10)
 player.set_initial_health(200) -- doesn't work immediately
 player.set_camera_mode("Freecam")
