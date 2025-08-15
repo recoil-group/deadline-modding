@@ -131,15 +131,10 @@ commands = {
 
 	spawngun = function(args)
 		local args_split = args:split(" ")
-		local weapon = args_split[1]
-		local code = args_split[2]
-
-		if not weapon then
-			return "Please provide a weapon"
-		end
+		local code = args_split[1]
 
 		if not code then
-			return "Please provide a weapon and setup code, e.g. -spawngun M4A1 3z4n-0230-aqb6-6acg-h27f-a37g-ded5-3mhf"
+			return "Please provide a setup code, e.g. -spawngun 3z4n-0230-aqb6-6acg-h27f-a37g-ded5-3mhf"
 		end
 
 		local setup = weapons.get_setup_from_code(code)
@@ -148,8 +143,8 @@ commands = {
 		end
 
 		override_setup = {
-			data = setup.data,
-			weapon = weapon,
+			data = setup.data.data,
+			weapon = setup.data.weapon,
 		}
 
 		return "Set spawning weapon"
