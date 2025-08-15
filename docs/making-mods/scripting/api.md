@@ -1,19 +1,43 @@
 # API
 
-What you want to to might be already implemented. Just Ctrl+F on this page or use the search feature on the wiki.
+What you want to do might be already implemented. Just Ctrl+F on this page or use the search feature on the wiki.
 
 ## Shared globals
 
-### classes
+### console
+
+```lua
+print("hello world") -- hello world
+warn("watch out") -- Prints in orange text.
+error("oh no") -- Prints in red text and creates an error notification. Does NOT halt its thread.
+clear_console() -- Clears the console output.
+
+```
+
+### Signal
+
+```lua
+-- Signal class
+local signal = Signal.new()
+
+signal:Connect(function(...)
+    print("Signal fired with args", ...)
+end)
+
+signal:Fire(1) -- Outputs "Signal fired with args 1"
+
+```
+
+### Timer
 
 ```lua
 
--- the timer class
--- it allows you to fire an event once per 5 seconds while running in renderstep
+-- Timer class
+-- Allows you to fire an event once per x seconds while running in renderstep.
 local timer = Timer.new(5)
 local connection;
 
-connection = time.renderstep("my script label", function(delta_time)
+connection: RBXScriptConnection = time.renderstep("my script label", function(delta_time)
 	if timer:expired() then
 		timer:reset()
 		connection:Disconnect()
@@ -22,68 +46,57 @@ connection = time.renderstep("my script label", function(delta_time)
 	end
 end)
 
--- spring class
--- it's just a spring implementation
+-- Spring class
+-- Provides spring implementation.
 --                        mass?: number, force?: number, damping?: number, speed?: number
 local spring = Spring.new(0.8, 40, 6, 1.9)
 spring:shove(Vector3.new(10, 0, 0))
 spring:update(delta_time)
 
--- signal class
-local signal = Signal.new()
-
-signal:Connect(function(...)
-    print("Signal fired with args", ...)
-end)
-
-signal:Fire(1) -- outputs "Signal fired with args 1"
 ```
 
 ### time
 
 ```lua
--- Timescale, used internally by the game
+-- Timescale, used internally by the game.
 
--- this is a replacement for RenderStepped. delta_time is multiplied by game speed
-local c = time.renderstep("my script label", function(delta_time)
+-- Replaces RunService.RenderStepped and RunService.Heartbeat. delta_time is multiplied by game speed.
+local a: RBXScriptConnection = time.renderstep("my script label", function(delta_time)
 
 end)
-
-c:Disconnect()
-
--- this is a replacement for Heartbeat. delta_time is multiplied by game speed
-time.heartbeat("my script label", function(delta_time)
+local b: RBXScriptConnection = time.heartbeat("my script label", function(delta_time)
 
 end)
 
 time.local_timescale_changed:Connect(function()
     print('timescale has changed')
-end) -- fires when timescale changes. Only used at the match ending
+end) -- Fires when timescale changes. Only fired when slow-mo is applied at the end of the match.
 
-time.set_local_timescale(1) -- set local timescale, only used by the client
+time.set_local_timescale(1) -- Only applied on the client.
 time.get_speed() -- gets current game speed
 
--- this is a replacement for task.delay affected by game_speed
+-- Alternatives for task.delay and task.wait. Affected by game speed.
 time.delay(5, function()
 
 end)
-
--- replacement for task.wait() affected by game speed
 time.wait(5)
+
 ```
 
 ### tags
 
 ```lua
 
--- you can access the position and size data of CollectionService tagged instances in your maps with the tags namespace.
--- get_tagged gets tagged instances in workspace (current map)
--- get_all_tagged gets all instances (lets you load maps as models and then spawn them in)
+-- You can access CollectionService-tagged instances using the tags class.
 
-print(tags.get_tags()) --> returns a list of every tag used by the game
-print(tags.get_tagged("_killbox")) --> returns a list of every part tagged with _killbox.
--- parts will have position, name, orientation, position, and size defined
--- everything else only has name at the moment
+-- get_tagged searches the current map and collects instances with the given tag.
+local lamps: {Instance?} = tags.get_tagged("lamp") -- Returns all instances tagged as "lamp" in the current map, if any.
+
+-- get_all_tagged gets all instances (lets you load maps as models and then spawn them in)
+local next_map_name = "dl_forest"
+local map_model: Model = tags.get_all_tagged(next_map_name)[1] -- Collects all instances tagged "dl_forest", and returns the first one found.
+
+local existing_tags: {string?} = print(tags.get_tags()) -- Returns a list of every tag used by the game.
 
 ```
 
@@ -91,58 +104,56 @@ print(tags.get_tagged("_killbox")) --> returns a list of every part tagged with 
 
 ```lua
 
--- there is a wrapped luau instance which allows editing most properties of instances
--- returns a metatable with some functions
+-- Instances are represented by a table of properties and functions.
+-- Functions are in snakecase (like_this). Properties are in Pascal case (LikeThis), as found in standard Roblox.
+-- Most properties of any given instance can be edited.
 
-local sound = tags.get_tagged("sound_alarm")[1]
-sound.play() -- for playing sounds
-sound.stop() -- for stopping sounds
+local alarm: Sound = tags.get_tagged("sound_alarm")[1]
+alarm.play()
+time.wait(5)
+alarm.stop()
 
--- you can also create any instance
-local highlight = create_instance("Highlight")
-highlight.Parent = character
+local alarm_tags: {string?} = alarm.get_tags() -- Returns all tags on the instance, if any.
+if table.find(alarm_tags, "extra_loud_alarm") then
+	alarm.Volume = alarm.Volume * 10
+end
+
+-- create_instance replaces Instance.new
+local highlight: Highlight = create_instance("Highlight")
+highlight.Parent = part_to_highlight
 highlight.Name = "highlight"
 
--- you can also create sounds specifically directly
-local sound = sound.create()
+-- sound.create() is equivalent to create_instance("Sound")
+local ringtone: Sound = sound.create()
 
--- cloning instances
-local clone = sound.clone()
-clone.Parent = sound
+local clone = ringtone.clone() -- Returns a clone.
+clone.Parent = cellphone_model
 clone.destroy()
 
--- works
-sound.Volume = 0.5
-print(sound.get_tags()) --> returns a list of every tag the instance has
-
--- method and instance properties don't work
+-- Method and instance properties don't work.
 print(sound.Parent)
 
--- attributes and tags can be set
+-- Attributes and tags can be set.
 sound.add_tag("tag")
 sound.remove_tag("tag")
 
 sound.set_attribute("attribute", true)
 sound.get_attribute("attribute")
 
--- models. You can move entire models with pivot_to
+-- You can move entire models with pivot_to
 model.pivot_to(model.get_pivot() * CFrame.Angles(0.1, 0, 0))
 
--- physics
+-- Physics
 instance.apply_impulse_at_position(Vector3.new(0, 0, 0), Vector3.new(0, 0, 0))
 instance.apply_angular_impulse_at_position(Vector3.new(0, 0, 0), Vector3.new(0, 0, 0))
 instance.apply_impulse(Vector3.new(0, 0, 0))
 instance.set_network_owner(nil)
 instance.set_network_owner("MyName")
 
--- some util functions
--- you can parent things to the map directly with get_map_root()
-instance.Parent = get_map_root()
-
--- you can also get the character folder
-instance.Parent = get_chars_root()
-
--- this helps with cloned instances that should disappear when the map is unloaded
+-- Some util functions for parenting instances:
+instance.Parent = get_map_root() -- Returns the map folder of the current map.
+instance.Parent = get_chars_root() -- Returns the character folder.
+-- This should help with cloned instances that should disappear when the map is unloaded.
 
 ```
 
@@ -150,24 +161,23 @@ instance.Parent = get_chars_root()
 
 ```lua
 
--- The game has a list of variables that control the game settings for different players. They are called in a table called shared state.
--- sharedvars and sharedvars_descriptions exposes this in a simple API
--- the game has over 100 changeable settings. Check them to make sure
+-- (There is another page about this on the wiki.)
+
+-- A list of variables control certain game settings for different players.
+-- sharedvars and sharedvars_descriptions exposes this in a simple API.
+-- There are over 100 configurable settings. Check them to make sure
 -- what you might want to do isn't already configurable.
 
--- there is another page about this on the wiki
-
 for name, description in pairs(sharedvars_descriptions) do
-    print(name, description) --> prints every sharedvars value
+    print(name, description) --> prints a description of every sharedvar.
 end
 
-for name, description in pairs(sharedvars) do
-    -- iterating over sharedvars doesn't work because it's a metatable
-    -- this will do nothing
-    print(name, description)
+-- Iterating over sharedvars doesn't work because it's a metatable.
+for name, value in pairs(sharedvars) do
+    print(name, value) -- This will do nothing.
 end
 
-sharedvars.chat_tips_enabled = false -- disables chat tips, only works on the server
+sharedvars.chat_tips_enabled = false
 print(sharedvars.chat_tips_enabled) -- false
 
 ```
@@ -176,19 +186,12 @@ print(sharedvars.chat_tips_enabled) -- false
 
 ```lua
 
--- this is just persistent script storage
+-- Provides storage between scripts.
 shared.value = 5
 
--- from another script
+-- (From another script.)
 print(shared.value) --> 5
 
-```
-
-### console
-
-```lua
-print("hello world") -- self explanatory
-clear_console() -- clears the console output
 ```
 
 ### query
