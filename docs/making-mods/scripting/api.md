@@ -335,6 +335,7 @@ end)
 local player = players.get("MyName") or players.get_by_userid(1000)
 
 -- functions:
+print(player.is_alive())
 player.kill()
 player.explode()
 player.kick()
