@@ -771,70 +771,12 @@ players.get("me").set_custom_camera_mode("CustomFreecam")
 
 ```lua
 
--- you can render simple UIs on the client
-ui.clear()
-ui.render({
-	{
-		type = "widget",
-		id = "widget_id",
-		title = "helo",
-		members = {
-			{
-				type = "text",
-				text = "hi",
-			},
-			{
-				type = "button",
-				callback = function()
-					print("button clicked")
-				end,
-			},
-			{
-				type = "textbox",
-				changed = function(value)
-					print(value)
-				end,
-				text = "slider",
-			},
-			{
-				type = "slider",
-				id = "slider1",
-				changed = function(value)
-					-- you can declare ids on objects to change their properties on the fly
-					-- the slider won't move unless you do this in the changed event
-					ui.patch_by_id("slider1", {
-						value = value,
-					})
-				end,
-			},
-		},
-	},
-	{
-		type = "floating_widget",
-		id = "widget_id_2",
-		title = "floating hello",
-		size = { 200, 100 },
-		visible = true,
-		members = {
-			{
-				type = "text",
-				text = "hi",
-			},
-			{
-				type = "button",
-                text = "clear console",
-				callback = function()
-                    clear_console()
-					-- can also do network comms here
-					fire_server("clear console idk")
-				end,
-			},
-		},
-	},
-})
-
--- iris is also included
+-- iris is included as the ui library of choice
+-- it's an immediate mode ui library
+-- this means it just runs a function that tells it to draw things one by one over and over
 -- https://sirmallard.github.io/Iris/
+
+-- paste this in the client console to test it
 iris:Connect(function()
 	iris.Window({"My Second Window"})
 		iris.Text({"The current time is: " .. tick()})
