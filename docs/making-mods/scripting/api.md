@@ -290,6 +290,7 @@ chat.player_chatted:Connect(function(sender, channel, content)
 	chat.send_announcement(str, Color3.fromRGB(227, 93, 244)) -- chat.send_announcement - sends an announcement in the chat
 end)
 
+chat.set_join_message("Hi this is my server") --> join prompt
 chat.set_spawning_disabled_reason("Reason why spawning is disabled") --> when players can't spawn this text will show up filtered in a prompt
 sharedvars.sv_spawning_enabled = false
 
