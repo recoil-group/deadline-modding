@@ -14,8 +14,10 @@ To create an interactable object, make a model, give it an "interactable" tag, a
 -   door
     -   Door. Has a very specific, undocumented structure
     -   Example: [door.rbxm](file/door.rbxm)
+-   breaker_box
+    -   Controls a group of lights with team restrictions, map-wide sound, and ambient hum. See [breaker_box.md](breaker_box.md) for full details
 -   light_switch
-    -   When interacted with, toggles all lights inside the model. Structure is undocumented
+    -   When interacted with, toggles all lights inside the model. Simpler version of breaker_box with no team restrictions or map-wide sound
 -   custom
     -   You can create your own interactable logic. Check the custom_interactable.luau mod in the mod manifest.
 -   weapon_switch
