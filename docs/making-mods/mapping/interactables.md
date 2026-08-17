@@ -8,9 +8,11 @@ To create an interactable object, make a model, give it an "interactable" tag, a
 
 -   ammo_refill
     -   Refills your ammo instantly
+    -   Marked with an ammo icon on the leaderboard minimap
 -   capture_refill
     -   Refills your ammo if the given point is captured (defined with interactable_domination_point, 0 for Alpha, 1 for Beta and so on)
     -   Has a cooldown
+    -   Marked with an ammo icon on the leaderboard minimap
 -   door
     -   Door. Has a very specific, undocumented structure
     -   Example: [door.rbxm](file/door.rbxm)
@@ -22,5 +24,7 @@ To create an interactable object, make a model, give it an "interactable" tag, a
     -   You can create your own interactable logic. Check the custom_interactable.luau mod in the mod manifest.
 -   weapon_switch
     -   Switches your weapon. Currently requires the setup as JSON, which makes it useless for modding. You can create a custom interactable that replaces weapon_switch instead.
+
+To mark a non-interactable location on the minimap, use the [minimap_icon](minimap_icon.md) tag instead.
 
 To define the interaction point, create an attachment called "display_point" anywhere inside the model. After that your interactable should work.
